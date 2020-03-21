@@ -1,0 +1,12 @@
+package com.company.card;
+
+public class UCException extends Exception {
+    private int code;
+
+    public UCException(int code) {
+        super("Unknown card");
+        this.code = code;
+    }
+
+    public int getCode() { return this.code; }
+}
