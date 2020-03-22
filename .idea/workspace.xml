@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="954f5b2d-bf20-483a-8288-ae8d2511f667" name="Default Changelist" comment="" />
+    <list default="true" id="954f5b2d-bf20-483a-8288-ae8d2511f667" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/card/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/card/Card.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/card/Rank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/card/Rank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/card/Suit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/card/Suit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/card/UCException" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/card/UCException" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/combination/Classifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/combination/Classifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/combination/Combination.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/combination/Combination.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1ZSLY1OSi6Wqppno7QMUqDHkiEG" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true">
@@ -37,5 +52,11 @@
       <updated>1584827592375</updated>
     </task>
     <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="379" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1584866713254">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="379" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1584866713254" />
   </component>
 </project>

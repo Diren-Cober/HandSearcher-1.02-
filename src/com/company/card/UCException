@@ -1,5 +1,6 @@
 package com.company.card;
 
+//Исключение: неизвестная карта.
 public class UCException extends Exception {
     private int code;
 

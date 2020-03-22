@@ -1,23 +1,20 @@
 package com.company.combination;
 
-import com.company.card.Card;
-import com.company.card.Rank;
-import com.company.card.Suit;
+import com.company.card.*;
+import java.util.logging.Logger;   //Не используется.
 import java.util.*;
-import java.util.logging.Logger;
 
 public class Classifier {
 
-    private static  Logger log = Logger.getAnonymousLogger();
+    //private static  Logger log = Logger.getAnonymousLogger();   не используется.
 
     private HandRanks handRanks;
     private HandSuits handSuits;
     private SortedSet<Card> cards;
-    private Combination result;
 
-    public void setCards(SortedSet<Card> inputCards){
+    /*public void setCards(SortedSet<Card> inputCards){   не используется.
         this.cards = inputCards;
-    }
+    }*/
 
     public Classifier (){
         this.cards = new TreeSet<>();
@@ -26,32 +23,81 @@ public class Classifier {
     public Combination classify (SortedSet<Card> inputCards){
         this.cards = inputCards;
 
-        //создаём массив рангов и мастей карт для удоьства
+        //создаём массив рангов и мастей карт для удобства
         this.handRanks = new HandRanks(cards);
         this.handSuits = new HandSuits(cards);
 
         //поиск комбинации - опять же отдельно
-        result = findCombination();
-        return result;
+        return findCombination();
     }
 
     private Combination findCombination (){
+        Combination result = new Combination();
+        Combination NONE = new Combination();
         //по количеству карт сокращаем путь
         //иначе - каждая "find" функция будет вызывать последующую
-        if (cards.size() > 4)
-            return findRoyalFlush();
-        else if (cards.size() == 4)
-            return findFourOfAKind();
-        else if (cards.size() == 3)
-            return findSet();
-        else if (cards.size() == 2)
-            return findPair();
-        else if (cards.size() == 1)
-            return findHighCard();
-        //создаём "нулевую" комбинацию
-        else return new Combination();
+        if (cards.size() > 4)           return selector_$5(result, NONE);   // Селекторы уменьшают количество
+        else if (cards.size() == 4)     return selector_$4(result, NONE);   // рекурсивных вызовов. Все параметры
+        else if (cards.size() == 3)     return selector_$3(result, NONE);   // передаются по ссылке. Рекурсивные вызовы
+        else if (cards.size() == 2)     return selector_$2(result, NONE);   // в концах методов убраны.
+        else if (cards.size() == 1)     return findHighCard();      // (*)
+        else                            return new Combination(); //Нулевая комбинация.
+    } // (*) Вскрываться с одной картой - маловероятно. Хотя...
 
+    private Combination selector_$5(Combination result, Combination NONE) {
+        result = findRoyalFlush();
 
+        if(result.equals(NONE)) {
+            result = findStraightFlush();
+
+            if(result.equals(NONE)) {
+                result = findStraightFlushWheel();
+
+                if(result.equals(NONE)) {
+                    result = findFullHouse();
+
+                    if(result.equals(NONE)) {
+                        result = findFlush();
+
+                        if(result.equals(NONE)) {
+                            result = findStraight();
+
+                            if(result.equals(NONE)) result = findWheel();
+                            if(result.equals(NONE)) return selector_$4(result, NONE);
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    private Combination selector_$4(Combination result, Combination NONE) {
+        result = findFourOfAKind();
+
+        if(result.equals(NONE)) {
+            result = findTwoPair();
+
+            if(result.equals(NONE)) return selector_$3(result, NONE);
+        }
+
+        return result;
+    }
+
+    private Combination selector_$3(Combination result, Combination NONE) {
+        result = findSet();
+
+        if(result.equals(NONE)) return selector_$2(result, NONE);
+
+        return result;
+    }
+
+    private Combination selector_$2(Combination result, Combination NONE) {
+        result = findPair();
+
+        if(result.equals(NONE)) return findHighCard();
+
+        return result;
     }
 
     private Combination findRoyalFlush(){
@@ -74,7 +120,7 @@ public class Classifier {
             cards.retainAll(HandUtils.ROYAL_FLUSH_SPADES);
             return new Combination(HandCombination.ROYAL_FLUSH, new TreeSet<>(HandUtils.ROYAL_FLUSH_SPADES));
         }
-        return findStraightFlush();
+        return new Combination();
     }
 
     private Combination findStraightFlush(){
@@ -99,7 +145,7 @@ public class Classifier {
                 }
             }
         }
-        return findStraightFlushWheel();
+        return new Combination();
     }
 
     private Combination findStraightFlushWheel() {
@@ -119,14 +165,14 @@ public class Classifier {
             cards.retainAll(HandUtils.STRAIGHT_FLUSH_SPADES_WHEEL);
             return new Combination(HandCombination.STRAIGHT_FLUSH_WHEEL,  new TreeSet<>(HandUtils.STRAIGHT_FLUSH_SPADES_WHEEL));
         }
-        return findFourOfAKind();
+        return new Combination();
     }
 
     private Combination findFourOfAKind(){
         if (this.handRanks.getFour_counter() == 1)
             return new Combination(HandCombination.FOUR_OF_A_KIND, this.handRanks.getFourList());
-        else
-            return findFullHouse();
+
+        else return new Combination();
     }
 
     private Combination findFullHouse(){
@@ -138,7 +184,7 @@ public class Classifier {
         }else
         if (this.handRanks.getSet_counter() == 2){
             return new Combination(HandCombination.FULL_HOUSE, this.handRanks.getSetList());
-        }else return findFlush();
+        }else return new Combination();
     }
 
     private Combination findFlush(){
@@ -147,7 +193,7 @@ public class Classifier {
                 return new Combination(HandCombination.FLUSH, new TreeSet<>(i.getValue()));
             }
         }
-        return findStraight();
+        return new Combination();
     }
 
     private Combination findStraight(){
@@ -172,7 +218,7 @@ public class Classifier {
         else if(rankSet.containsAll(HandUtils.STRAIGHT_SIX))
             return new Combination(HandCombination.STRAIGHT, findStraightCards(HandUtils.STRAIGHT_SIX));
 
-        return findWheel();
+        return new Combination();
     }
 
     private Combination findWheel(){
@@ -197,7 +243,7 @@ public class Classifier {
             return new Combination(HandCombination.WHEEL, result);
         }
 
-        return findSet();
+        return new Combination();
     }
 
     private SortedSet<Card> findStraightCards(List<Rank> ranks){
@@ -214,19 +260,22 @@ public class Classifier {
     private Combination findSet(){
         if (this.handRanks.getSet_counter() == 1)
             return new Combination(HandCombination.SET, this.handRanks.getSetList());
-        return findTwoPair();
+
+        else return new Combination();
     }
 
     private Combination findTwoPair(){
         if (this.handRanks.getPair_counter() == 2)
             return new Combination(HandCombination.TWO_PAIR, this.handRanks.getPairList());
-        return findPair();
+
+        else return new Combination();
     }
 
     private Combination findPair(){
         if (this.handRanks.getPair_counter() == 1)
             return new Combination(HandCombination.PAIR, this.handRanks.getPairList());
-        return findHighCard();
+
+        else return new Combination();
     }
 
     private Combination findHighCard(){

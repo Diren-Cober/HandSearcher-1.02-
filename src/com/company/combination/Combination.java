@@ -1,7 +1,7 @@
 package com.company.combination;
 
 import com.company.card.Card;
-import com.company.card.Rank;
+import com.company.card.Rank;   //Не используется.
 
 import java.util.SortedSet;
 
